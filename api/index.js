@@ -14,7 +14,7 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: "http://localhost:3004",
+    origin: "http://localhost:3000", //same as client
     methods: ["GET", "POST"],
     allowedHeaders: [],
     credentials: true,
@@ -23,6 +23,7 @@ const io = socketio(server, {
 
 
 io.on('connection', socket => {
+  console.log("it connected")
   socket.on('create-room', (username, room, difficulty, category) => {
     socket.to(room).emit('start-game',username, difficulty, category)
   });
