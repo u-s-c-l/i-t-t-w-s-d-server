@@ -45,17 +45,19 @@ class Score {
     });
   }
 
-  static create(data) {
-    return new Promise(async (res, rej) => {
-      try {
-        const db = await init();
-        await db.collection("scores").insertOne(data);
-        res("Score entry created");
-      } catch (err) {
-        rej(err);
-      }
-    });
-  }
+  //score provided as a percentage
+  // static create(username,cat,level,score) {
+  //   return new Promise(async (res, rej) => {
+  //     try {
+  //       data = {}
+  //       const db = await init();
+  //       await db.collection("scores").insertOne(data);
+  //       res("Score entry created");
+  //     } catch (err) {
+  //       rej(err);
+  //     }
+  //   });
+  // }
 
   destroy() {
     return new Promise(async (res, rej) => {
