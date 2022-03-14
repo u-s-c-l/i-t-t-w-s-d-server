@@ -7,11 +7,11 @@ async function index (req, res) { //returns an array
         const users = await User.all
         res.status(200).json(users)
     } catch(err) {
-        res.status(403).send(err.message)
+        res.status(403).json(err.message);
     }
 }
 
-async function findByUsername (req, res){ //returns an object
+async function findByUsername (req, res){ //returns an
 try{ 
         const user = await User.findByUsername(req.params.username);
         res.status(200).json(user);

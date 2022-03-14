@@ -5,6 +5,8 @@ const server = express();
 server.use(cors("*"));
 server.use(express.json());
 
+
+
 server.get("/", (req, res) => {
   res.send("Hello World");
 });
@@ -15,8 +17,7 @@ server.use("/auth", authRoutes);
 const usersRoutes = require("./routes/users");
 server.use("/users", usersRoutes);
 
-const usersRoutes = require("./routes/scores");
-server.use("/scores", usersRoutes);
-
+const scoresRoutes = require("./routes/scores");
+server.use("/scores", scoresRoutes);
 
 module.exports = server;
