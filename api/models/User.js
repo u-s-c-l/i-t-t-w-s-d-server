@@ -8,6 +8,23 @@ class User {
     this.passwordDigest = data.password_digest;
   }
 
+  static get all() {
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        const usersData = await db
+          .collection("users")
+          .find()
+          .toArray();
+        if (!usersData.length) {throw new Error('No user found')}
+        const users = usersData.map( d => new User(d))
+        res(users);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
+
   static findByUsername(username) {
     return new Promise(async (res, rej) => {
       try {
@@ -16,6 +33,7 @@ class User {
           .collection("users")
           .find({ username: { $eq: username } })
           .toArray();
+        if (!userData.length) {throw new Error('User not found')}
         const user = new User(userData[0]);
         res(user);
       } catch (err) {
