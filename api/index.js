@@ -12,7 +12,14 @@ app.listen(port, () =>
 const http = require("http");
 const socketio = require("socket.io");
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketio(server, {
+  cors: {
+    origin: "http://localhost:3004",
+    methods: ["GET", "POST"],
+    allowedHeaders: [],
+    credentials: true,
+  },
+});
 
 
 io.on('connection', socket => {
