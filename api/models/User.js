@@ -16,6 +16,7 @@ class User {
           .collection("users")
           .find()
           .toArray();
+        if (!usersData.length) {throw new Error('No user found')}
         const users = usersData.map( d => new User(d))
         res(users);
       } catch (err) {
@@ -32,6 +33,7 @@ class User {
           .collection("users")
           .find({ username: { $eq: username } })
           .toArray();
+        if (!userData.length) {throw new Error('User not found')}
         const user = new User(userData[0]);
         res(user);
       } catch (err) {
