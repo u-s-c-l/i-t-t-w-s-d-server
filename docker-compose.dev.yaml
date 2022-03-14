@@ -1,26 +1,26 @@
 services:
   api:
-    container_name: Arg_dev_api
+    container_name: ITTWSD_dev_api
     ports:
       - 3000:3000
     environment:
-      - DB_NAME=users
-      - DB_CONNECTION=mongodb://BNP:BNPassword@db:27017
+      - DB_NAME=ittwsd
+      - DB_CONNECTION=mongodb://ITTWSD:ITTWSDpassword@db:27017
     depends_on:
       - db
     command: bash -c "npm install && npm run dev"
 
   db:
-    container_name: Arg_dev_db
+    container_name: ITTWSD_db
     volumes:
       - "dbdata:/var/lib/mongodb/data"
       - "./db/seeds.js:/docker-entrypoint-initdb.d/seeds.js:ro"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=BNP
-      - MONGO_INITDB_ROOT_PASSWORD=BNPassword
-      - MONGO_INITDB_DATABASE=users
+      - MONGO_INITDB_ROOT_USERNAME=ITTWSD
+      - MONGO_INITDB_ROOT_PASSWORD=ITTWSDpassword
+      - MONGO_INITDB_DATABASE=ittwsd
 volumes:
   dbdata:
 networks:
   default:
-    name: Arg_api
+    name: ITTWSD_api
