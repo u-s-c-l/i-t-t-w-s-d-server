@@ -15,9 +15,8 @@ server.use("/auth", authRoutes);
 const usersRoutes = require("./routes/users");
 server.use("/users", usersRoutes);
 
-// server.get("/users/:username", async (req, res) => {
-//   const user = await User.findByUsername(req.params.username);
-//   res.json(user);
-// });
+const usersRoutes = require("./routes/scores");
+server.use("/scores", usersRoutes);
+
 
 module.exports = server;
