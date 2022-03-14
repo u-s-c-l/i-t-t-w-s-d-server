@@ -16,4 +16,7 @@ server.get("/users/:username", async (req, res) => {
   res.json(user);
 });
 
+const authRoutes = require("./routes/auth");
+server.use("/auth", authRoutes);
+
 module.exports = server;
