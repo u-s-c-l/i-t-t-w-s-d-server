@@ -21,11 +21,11 @@ io.on('connection', socket => {
   });
 
   socket.on("join-room", (username, room) => {
-    socket.to(room).emit("start-game", username);
+    socket.to(room).emit("join-game", username);
   });
 
   socket.on("game-over", (username, room, score) => {
-    socket.to(room).emit("start-game", username, score);
+    socket.to(room).emit("end-game", username, score);
   });
 
 })
