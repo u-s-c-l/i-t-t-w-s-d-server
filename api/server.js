@@ -11,6 +11,7 @@ server.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+
 server.get("/users/:username", async (req, res) => {
   const user = await User.findByUsername(req.params.username);
   res.json(user);
