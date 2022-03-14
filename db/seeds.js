@@ -31,37 +31,13 @@ db.users.insertMany([
   },
 ]);
 
-db.highscores.drop();
+db.scores.drop();
 
-db.highscores.insertMany([
-  {
-    username: "ewhite1999",
-    categories: {
-      animals: 2,
-    },
-  },
-  {
-    username: "gi-ba-bu",
-    categories: {
-      animals: 1,
-    },
-  },
-  {
-    username: "jalexxx",
-    categories: {
-      animals: 40,
-    },
-  },
-  {
-    username: "nplatton",
-    categories: {
-      animals: 3,
-    },
-  },
-  {
-    username: "saminakhan999",
-    categories: {
-      animals: 5,
-    },
-  },
-]);
+db.scores.insertMany([ 
+  {cat: "maths", username: "jalexxx", low: {nmbrgames: 3, top_score: 33}, medium: {nmbrgames: 1, top_score: 33}, hard: {nmbrgames: 1, top_score: 10} },
+  {cat: "physics",username: "nplatton", low: {nmbrgames: 3, top_score: 33}, medium: {nmbrgames: 2, top_score: 33} },
+  {cat: "movies", username:"saminakhan999", medium: {nmbrgames: 4, top_score: 33} },
+  {cat: "animals", username:"gi-ba-bu", medium: {nmbrgames: 4, top_score: 33} },
+  {cat: "science", username:"ewhite1999", medium: {nmbrgames: 4, top_score: 33} }
+
+ ])
