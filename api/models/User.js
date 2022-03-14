@@ -15,21 +15,8 @@ class User {
           .collection("users")
           .find({ username: { $eq: username } })
           .toArray();
-        const user = new User(userData.rows[0]);
+        const user = new User(userData[0]);
         res(user);
-      } catch (err) {
-        rej(err);
-      }
-    });
-  }
-
-  static get findAll() {
-    return new Promise(async (res, rej) => {
-      try {
-        const db = await init();
-        const userData = await db.collection("users").find().toArray();
-        const users = userData.map((user) => new User(user));
-        res(users);
       } catch (err) {
         rej(err);
       }

@@ -1,4 +1,4 @@
-const db = connect(`mongodb://localhost:27017/users`);
+const db = connect("mongodb://localhost:27017/ittwsd");
 
 db.users.drop();
 
