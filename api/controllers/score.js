@@ -48,22 +48,23 @@ async function findByUsernameAndCat (req, res){ //returns an object
                 res.status(403).send(err.message)
                 }
         }
-// async function upsert(req, res){
-//     try {
-//         const newdata = await Score.upsertScore(req.body.username, req.body.cat, req.body.score)
-//         res.json(newdata)
-//     } catch(err) {
-//         res.status(404).json({err})
-//     }
-// }
 
-async function destroy(req, res){
-    try {
-        const score = await Score.destroy(req.params.username)
-        res.status(204).send('User scores deleted')
-    } catch(err) {
-        res.status(500).send(err.message)
+    async function updateInsert(req, res){
+        try {
+            const newdata = await Score.updateScore(req.body.username, req.body.cat, req.body.score)
+            res.json(newdata)
+        } catch(err) {
+            res.status(404).json({err})
+        }
     }
-}
 
-module.exports = { index, findByUsername, findByCategory, findByUsernameAndCat, returnLeadersBoard, destroy }
+    async function destroy(req, res){
+        try {
+            const score = await Score.destroy(req.params.username)
+            res.status(204).send('User scores deleted')
+        } catch(err) {
+            res.status(500).send(err.message)
+        }
+    }
+
+module.exports = { index, findByUsername, findByCategory, findByUsernameAndCat, returnLeadersBoard, updateInsert, destroy }

@@ -8,7 +8,7 @@ router.get('/username/:username', userController.findByUsername)
 router.get('/cat/:cat', userController.findByCategory)
 router.get('/username/:username/cat/:cat', userController.findByUsernameAndCat)
 router.get('/leadersboard', userController.returnLeadersBoard)
-//router.post('/cat', userController.upsert)
+router.post('/post', userController.updateInsert)
 router.delete('/username/:username', userController.destroy)
 
 module.exports = router;
