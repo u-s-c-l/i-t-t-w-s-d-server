@@ -31,9 +31,9 @@ db.users.insertMany([
   },
 ]);
 
-db.highscores.drop();
+db.scores.drop();
 
-db.highscores.insertMany([
+db.scores.insertMany([
   {cat: "maths", username: "ewhite1999", score: 20},
   {cat: "physics", username: "nplatton", score: 23},
   {cat: "movies", username: "saminakhan999", score: 18},
