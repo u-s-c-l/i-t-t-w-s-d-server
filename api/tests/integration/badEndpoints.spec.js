@@ -15,28 +15,59 @@ describe("user endpoints", () => {
   });
 
   describe("user", () => {
-    test("it should return 403 error if no users found", async () => {
-      const res = await request(api).get("/users");
-      expect(res.statusCode).toEqual(403);
+    describe("index", () => {
+      test("it should return 403 error if no users found", async () => {
+        const res = await request(api).get("/users");
+        expect(res.statusCode).toEqual(403);
+      });
     });
 
-    test("it should return 403 error if no user found", async () => {
-      const res = await request(api).get("/users/jalexxx");
-      expect(res.statusCode).toEqual(403);
+    describe("findByUsername", () => {
+      test("it should return 403 error if no user found", async () => {
+        const res = await request(api).get("/users/jalexxx");
+        expect(res.statusCode).toEqual(403);
+      });
     });
   });
 
   describe("score", () => {
-    test("it should return 403 error if no users/scores found", async () => {
-      const res = await request(api).get("/scores");
-      expect(res.statusCode).toEqual(403);
+    describe("index", () => {
+      test("it should return 403 error if no users/scores found", async () => {
+        const res = await request(api).get("/scores");
+        expect(res.statusCode).toEqual(403);
+      });
     });
 
-    test("it returns 500 error in case of failure", async () => {
-      const res = await request(api)
-        .delete("/scores/jalexxx")
-        .set("Accept", "application/json");
-      expect(res.statusCode).toEqual(500);
+    describe("findByUsername", () => {
+      test("it returns 403 in case of failure", async () => {
+        const res = await request(api).get("/scores/username/jalexxx");
+        expect(res.statusCode).toEqual(403);
+      });
     });
+
+    describe("findByCategory", () => {
+      test("it returns 403 in case of failure", async () => {
+        const res = await request(api).get("/scores/cat/movies");
+        expect(res.statusCode).toEqual(403);
+      });
+    });
+
+    describe("findByUsernameAndCat", () => {
+      test("it returns 403 in case of failure", async () => {
+        const res = await request(api).get(
+          "/scores/username/jalexxx/cat/movies"
+        );
+        expect(res.statusCode).toEqual(403);
+      });
+    });
+
+    // describe("destroy", () => {
+    //   test("it returns 500 error in case of failure", async () => {
+    //     const res = await request(api)
+    //       .delete("/scores/username/jalexxx")
+    //       .set("Accept", "application/json");
+    //     expect(res.statusCode).toEqual(500);
+    //   });
+    // });
   });
 });

@@ -65,18 +65,19 @@ class Score {
   static findByUsernameAndCat(username, cat) {
     return new Promise(async (res, rej) => {
       try {
-        console.log(username, cat);
         const db = await init();
         const scoreData = await db
           .collection("scores")
-          .find({ username: { $eq: username } })
+          .find({
+            username: { $eq: username },
+            cat: { $eq: cat },
+          })
           .toArray();
-        console.log(scoreData);
         if (!scoreData.length) {
           throw new Error("Username with category not found");
         }
-        const scores = scoreData.map((d) => new Score(d));
-        res(scores);
+        const score = new Score(scoreData[0]);
+        res(score);
       } catch (err) {
         rej(err);
       }
