@@ -7,8 +7,65 @@ const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
 const collections = ["users", "scores"];
 const seeds = {
-  users: fs.readFileSync(__dirname + "userSeeds.js"),
-  scores: fs.readFileSync(__dirname + "scoreSeeds.js"),
+  users: [
+    {
+      username: "ewhite1999",
+      password_digest:
+        "$2a$10$tCppT1FG0aaUBFeYpFfDX..sitL9Hj4sHGyZHh6r5OUTLEvAcIorq",
+    },
+    {
+      username: "gi-ba-bu",
+      password_digest:
+        "$2a$10$1r.PF9X3eD8KmZmIBdrK5ufokHBePZrNXv564aKijge2rZDp0hDju",
+    },
+    {
+      username: "jalexxx",
+      password_digest:
+        "$2a$10$trsIf9zyAe.xiKQpanD5jOtD3if0lY.h4IQp/JfEsYCeL8m6rVHIe",
+    },
+    {
+      username: "nplatton",
+      password_digest:
+        "$2a$10$ovlXEPRhziLESsFPZaxlNenr9f6orAFcVX0ed9MeEhEBJXBmybO0u",
+    },
+    {
+      username: "saminakhan999",
+      password_digest:
+        "$2a$10$tr7TlkmfM8CAsbGCbA.ooe0GRAhjilm0eqhe6Ed3svL8BJCbCRVGK",
+    },
+  ],
+  scores: [
+    {
+      username: "ewhite1999",
+      categories: {
+        animals: 2,
+      },
+    },
+    {
+      username: "gi-ba-bu",
+      categories: {
+        animals: 1,
+      },
+    },
+    {
+      username: "jalexxx",
+      categories: {
+        animals: 40,
+      },
+    },
+    {
+      username: "nplatton",
+      categories: {
+        animals: 3,
+      },
+    },
+    {
+      username: "saminakhan999",
+      categories: {
+        animals: 5,
+      },
+    },
+  ],
 };
 
 const resetTestDB = () => {
@@ -16,8 +73,8 @@ const resetTestDB = () => {
     try {
       let client = await MongoClient.connect(connectionUrl);
       collections.forEach((item) => {
-        client.db(dbName).collection(item).drop();
-        client.db(dbName).collection(item).insertMany(seeds[`${item}`]);
+        await client.db(dbName).collection(item).drop();
+        await client.db(dbName).collection(item).insertMany(seeds[`${item}`]);
       });
       res("Test DB reset");
     } catch (err) {
