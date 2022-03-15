@@ -1,12 +1,13 @@
 describe("users endpoints", () => {
   let api;
   beforeEach(async () => {
-    await resetTestDB();
+    const res = await resetTestDB();
+    console.log(res);
   });
 
   beforeAll(() => {
-    api = app.listen(5000, () =>
-      console.log("Test server running on prot 5000...")
+    api = app.listen(port, () =>
+      console.log("Test server running on port 5000...")
     );
   });
 
@@ -15,8 +16,8 @@ describe("users endpoints", () => {
     await api.close();
   });
 
-  test("it should retrieve user based on username", () => {
-    const res = await request(api).get("users/jalexxx");
+  test("it should retrieve user based on username", async () => {
+    const res = await request(api).get("/users/jalexxx");
     expect(res.statusCode).toEqual(200);
     expect(res.body.username).toEqual("jalexxx");
   });
