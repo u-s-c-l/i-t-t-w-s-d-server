@@ -1,7 +1,6 @@
 require("dotenv").config();
 
-const { request } = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient } = require("mongodb");
 
 const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
@@ -68,17 +67,32 @@ const seeds = {
   ],
 };
 
+const dropCollections = async (db) => {
+  let collections = await db.listCollections().toArray();
+  console.log(collections);
+  // The above returns array of objects: {name: "", options: {}}
+  collections = collections.map((collection) => collection.name);
+  console.log(collections);
+  if (collections.includes("users")) {
+    await db.collection("users").drop();
+  }
+  if (collections.includes("scores")) {
+    await db.collection("scores").drop();
+  }
+};
+
 const resetTestDB = () => {
   return new Promise(async (res, rej) => {
     try {
-      let client = await MongoClient.connect(connectionUrl);
-      collections.forEach((item) => {
-        await client.db(dbName).collection(item).drop();
-        await client.db(dbName).collection(item).insertMany(seeds[`${item}`]);
+      const client = await MongoClient.connect(connectionUrl);
+      const db = client.db(dbName);
+      await dropCollections(db);
+      collections.forEach(async (item) => {
+        await db.collection(item).insertMany(seeds[`${item}`]);
       });
       res("Test DB reset");
     } catch (err) {
-      rej("Could not reset DB");
+      rej(err);
     }
   });
 };
@@ -89,3 +103,4 @@ const server = require("../../server");
 global.request = request;
 global.app = server;
 global.resetTestDB = resetTestDB;
+global.port = process.env.PORT || 5000;
