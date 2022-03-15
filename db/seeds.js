@@ -40,3 +40,5 @@ db.scores.insertMany([
   {cat: "animals", username: "gi-ba-bu", score: 23},
   {cat: "movies", username: "jalexxx", score: 18}
  ])
+
+ 
