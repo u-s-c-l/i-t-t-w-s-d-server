@@ -35,41 +35,109 @@ class Score {
         if (!scoreData.length) {
           throw new Error("User not found");
         }
-        const data = new Score(scoreData[0]);
-        res(data);
+        const scores = scoreData.map((d) => new Score(d));
+        res(scores);
       } catch (err) {
         rej(err);
       }
     });
   }
 
-  //score provided as a percentage
-  // static create(username,cat,level,score) {
-  //   return new Promise(async (res, rej) => {
-  //     try {
-  //       data = {}
-  //       const db = await init();
-  //       await db.collection("scores").insertOne(data);
-  //       res("Score entry created");
-  //     } catch (err) {
-  //       rej(err);
-  //     }
-  //   });
-  // }
+  static findByCategory(category) {
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        const scoreData = await db
+          .collection("scores")
+          .find({ cat: { $eq: category } })
+          .toArray();
+        if (!scoreData.length) {
+          throw new Error("Category not found");
+        }
+        const scores = scoreData.map((d) => new Score(d));
+        res(scores);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
 
-  destroy() {
+  static findByUsernameAndCat(username, cat) {
+    return new Promise(async (res, rej) => {
+      try {
+        console.log(username, cat);
+        const db = await init();
+        const scoreData = await db
+          .collection("scores")
+          .find({ username: { $eq: username } })
+          .toArray();
+        console.log(scoreData);
+        if (!scoreData.length) {
+          throw new Error("Username with category not found");
+        }
+        const scores = scoreData.map((d) => new Score(d));
+        res(scores);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
+
+  static destroy(username) {
     return new Promise(async (res, rej) => {
       try {
         const db = await init();
         await db
           .collection("scores")
-          .deleteMany({ username: { $eq: this.username } });
+          .deleteMany({ username: { $eq: username } });
         res("Scores deleted");
       } catch (err) {
         rej(err);
       }
     });
   }
+
+  // request object
+  // {username: username}
+  // static upsertScore(username, cat, newscore){
+  //   let message;
+  //   return new Promise (async (res, rej) => {
+  //       try {
+  //         const query = {"username": username, "cat": cat};
+  //         const db = await init();
+  //         const scoreData = await db
+  //         .collection("scores")
+  //         .find({ username: { $eq: username }, cat: { $eq: cat },  })
+  //         .toArray();
+  //       if (!scoreData.length) {
+  //         const update = { $set: { "score": newscore }};
+  //         const options = { upsert: true };
+  //         let insertedScore = await db
+  //         .collection("scores")
+  //         .updateOne(query, update, options);
+  //         console.log(insertedScore)
+  //       }
+  //       if (!!scoreData.length ) {
+
+  //         if(scoreData[0].score < newscore){}
+
+  //         console.log(scoreData)
+  //         // const update = { $set: { "score": newscore }};
+  //         // const options = { upsert: true };
+  //         // let insertedScore = await db
+  //         // .collection("scores")
+  //         // .updateOne(query, update, options);
+  //         // console.log(insertedScore)
+  //       }
+  //         //  let newScore = new Score(insertedScore.ops[0]);
+  //         //   resolve (newScore);
+
+  //         res("updated");
+  //       } catch (err) {
+  //           rej('Error upserting score');
+  //       }
+  //   });
+  // }
 }
 
 module.exports = Score;
