@@ -73,6 +73,7 @@ This server is currently deployed at ...heroku.....
 "username": "new_username",
 "password":"new_password"
 }
+```
 
 ### Posted object for login request
 
@@ -81,7 +82,7 @@ This server is currently deployed at ...heroku.....
 "username": "Frank",
 "password":"frank_password"
 }
-
+```
 
 
 ## User Routes
