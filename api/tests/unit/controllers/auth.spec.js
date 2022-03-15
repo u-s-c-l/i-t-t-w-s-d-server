@@ -29,24 +29,25 @@ describe("auth controller", () => {
   });
 
   describe("login", () => {
-    // test("it to resolve with token and status code 200", async () => {
-    //   const testPswrd = "testword";
-    //   const testUser = {
-    //     username: "tester",
-    //     password: "testword",
-    //   };
-    //   jest
-    //     .spyOn(User, "findByUsername")
-    //     .mockResolvedValue(
-    //       new User({ ...testUser, password_digest: testPswrd })
-    //     );
-    //   jest.spyOn(bcryptjs, "compareSync").mockResolvedValueOnce(true);
-    //   jest.spyOn(jwt, "sign").mockResolvedValue("testtoken");
-    //   const mockReq = { body: testUser };
-    //   await authController.login(mockReq, mockRes);
-    //   expect(mockStatus).toHaveBeenCalledWith(200);
-    //   expect(mockJson).toHaveBeenCalled();
-    // });
+    test("it to resolve with token and status code 200", async () => {
+      const testPswrd =
+        "$2a$10$ovlXEPRhziLESsFPZaxlNenr9f6orAFcVX0ed9MeEhEBJXBmybO0u";
+      const testUser = {
+        username: "nplatton",
+        password: "nplatton",
+      };
+      jest
+        .spyOn(User, "findByUsername")
+        .mockResolvedValue(
+          new User({ username: testUser.username, password_digest: testPswrd })
+        );
+      jest.spyOn(bcryptjs, "compare").mockResolvedValueOnce(true);
+      jest.spyOn(jwt, "sign").mockResolvedValue("testtoken");
+      const mockReq = { body: testUser };
+      await authController.login(mockReq, mockRes);
+      expect(mockStatus).toHaveBeenCalledWith(200);
+      expect(mockJson).toHaveBeenCalled();
+    });
 
     test("it responds with 401 if no username sent in request body", async () => {
       const testUser = {
