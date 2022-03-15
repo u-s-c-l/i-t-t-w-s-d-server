@@ -6,8 +6,7 @@ app.listen(port, () =>
   console.log(`Express now departing from port ${port}...`)
 );
 
-
-// Socket io stuff 
+// Socket io stuff
 
 const http = require("http");
 const socketio = require("socket.io");
@@ -21,10 +20,9 @@ const io = socketio(server, {
   },
 });
 
-
-io.on('connection', socket => {
-  socket.on('create-room', (username, room, difficulty, category) => {
-    socket.to(room).emit('start-game',username, difficulty, category)
+io.on("connection", (socket) => {
+  socket.on("create-room", (username, room, difficulty, category) => {
+    socket.to(room).emit("start-game", username, difficulty, category);
   });
 
   socket.on("join-room", (username, room) => {
@@ -34,7 +32,4 @@ io.on('connection', socket => {
   socket.on("game-over", (username, room, score) => {
     socket.to(room).emit("end-game", username, score);
   });
-
-})
-
-
+});
