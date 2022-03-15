@@ -12,12 +12,11 @@ class Score {
     return new Promise(async (res, rej) => {
       try {
         const db = await init();
-        const scoresData = await db
-          .collection("scores")
-          .find()
-          .toArray();
-        if (!scoresData.length) {throw new Error('No user found')}
-        const scores = scoresData.map( d => new Score(d))
+        const scoresData = await db.collection("scores").find().toArray();
+        if (!scoresData.length) {
+          throw new Error("No users found");
+        }
+        const scores = scoresData.map((d) => new Score(d));
         res(scores);
       } catch (err) {
         rej(err);
@@ -33,7 +32,9 @@ class Score {
           .collection("scores")
           .find({ username: { $eq: username } })
           .toArray();
-        if (!scoreData.length) {throw new Error('User not found')}
+        if (!scoreData.length) {
+          throw new Error("User not found");
+        }
         const data = new Score(scoreData[0]);
         res(data);
       } catch (err) {
@@ -62,7 +63,7 @@ class Score {
         const db = await init();
         await db
           .collection("scores")
-          .deleteOne({ username: { $eq: this.username } });
+          .deleteMany({ username: { $eq: this.username } });
         res("Scores deleted");
       } catch (err) {
         rej(err);
@@ -70,6 +71,5 @@ class Score {
     });
   }
 }
-
 
 module.exports = Score;

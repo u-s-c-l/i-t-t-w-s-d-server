@@ -1,10 +1,11 @@
-require("dotenv").config();
+// require("dotenv").config();
 
 const { MongoClient } = require("mongodb");
 
+let client;
 const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
-const collections = ["users", "scores"];
+const collectionNames = ["users", "scores"];
 const seeds = {
   users: [
     {
@@ -69,10 +70,8 @@ const seeds = {
 
 const dropCollections = async (db) => {
   let collections = await db.listCollections().toArray();
-  console.log(collections);
-  // The above returns array of objects: {name: "", options: {}}
+  // The above returns array of objects: {name: "", options: {}, ...}
   collections = collections.map((collection) => collection.name);
-  console.log(collections);
   if (collections.includes("users")) {
     await db.collection("users").drop();
   }
@@ -84,10 +83,10 @@ const dropCollections = async (db) => {
 const resetTestDB = () => {
   return new Promise(async (res, rej) => {
     try {
-      const client = await MongoClient.connect(connectionUrl);
+      client = await MongoClient.connect(connectionUrl);
       const db = client.db(dbName);
       await dropCollections(db);
-      collections.forEach(async (item) => {
+      collectionNames.forEach(async (item) => {
         await db.collection(item).insertMany(seeds[`${item}`]);
       });
       res("Test DB reset");
@@ -97,10 +96,35 @@ const resetTestDB = () => {
   });
 };
 
+const clearDB = () => {
+  return new Promise(async (res, rej) => {
+    try {
+      const client = await MongoClient.connect(connectionUrl);
+      const db = client.db(dbName);
+      await dropCollections(db);
+      res("Test DB cleared");
+    } catch (err) {
+      rej(err);
+    }
+  });
+};
+
+// const closeDB = () => {
+//   return new Promise(async (res, rej) => {
+//     try {
+//       await client.close();
+//     } catch (err) {
+//       rej(err);
+//     }
+//   });
+// };
+
 const request = require("supertest");
 const server = require("../../server");
 
 global.request = request;
 global.app = server;
 global.resetTestDB = resetTestDB;
+global.clearDB = clearDB;
+// global.closeDB = closeDB;
 global.port = process.env.PORT || 5000;
