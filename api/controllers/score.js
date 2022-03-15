@@ -45,6 +45,16 @@ async function findByUsernameAndCat(req, res) {
   }
 }
 
+async function returnLeadersBoard(req, res) {
+  //returns an object
+  try {
+    const score = await Score.getLeadersBoard;
+    res.status(200).json(score);
+  } catch (err) {
+    res.status(403).send(err.message);
+  }
+}
+
 // async function upsert(req, res){
 //     try {
 //         const newdata = await Score.upsertScore(req.body.username, req.body.cat, req.body.score)
@@ -68,5 +78,6 @@ module.exports = {
   findByUsername,
   findByCategory,
   findByUsernameAndCat,
+  returnLeadersBoard,
   destroy,
 };

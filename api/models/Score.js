@@ -84,6 +84,37 @@ class Score {
     });
   }
 
+  static get getLeadersBoard() {
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        const database = db.collection("scores");
+        const fields = await database.distinct("cat");
+
+        const leaders = [];
+
+        for (const field of fields) {
+          const sortedScores = await database
+            .aggregate([{ $match: { cat: field } }, { $sort: { score: -1 } }])
+            .toArray();
+          let fieldMax = sortedScores[0].score;
+
+          const TopScores = await database
+            .aggregate([{ $match: { cat: field, score: fieldMax } }])
+            .sort({ _id: -1 })
+            .limit(1)
+            .toArray();
+
+          leaders.push(TopScores[0]);
+        }
+
+        res(leaders);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
+
   static destroy(username) {
     return new Promise(async (res, rej) => {
       try {
