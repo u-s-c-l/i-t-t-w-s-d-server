@@ -61,6 +61,13 @@ describe("user endpoints", () => {
       });
     });
 
+    describe("returnLeadersBoard", () => {
+      test("it returns 403 in case of failure", async () => {
+        const res = await request(api).get("/scores/leadersboard");
+        expect(res.statusCode).toEqual(403);
+      });
+    });
+
     // describe("destroy", () => {
     //   test("it returns 500 error in case of failure", async () => {
     //     const res = await request(api)

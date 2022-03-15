@@ -15,6 +15,7 @@ async function index(req, res) {
 async function findByUsername(req, res) {
   //returns an object
   try {
+    console.log(req.params.username);
     const score = await Score.findByUsername(req.params.username);
     res.status(200).json(score);
   } catch (err) {
@@ -25,6 +26,7 @@ async function findByUsername(req, res) {
 async function findByCategory(req, res) {
   //returns an object
   try {
+    console.log(req.params.cat);
     const score = await Score.findByCategory(req.params.cat);
     res.status(200).json(score);
   } catch (err) {

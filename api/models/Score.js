@@ -27,12 +27,15 @@ class Score {
   static findByUsername(username) {
     return new Promise(async (res, rej) => {
       try {
+        console.log(username);
         const db = await init();
         const scoreData = await db
           .collection("scores")
           .find({ username: { $eq: username } })
           .toArray();
+        console.log(scoreData);
         if (!scoreData.length) {
+          console.log("error thrown");
           throw new Error("User not found");
         }
         const scores = scoreData.map((d) => new Score(d));
@@ -46,12 +49,15 @@ class Score {
   static findByCategory(category) {
     return new Promise(async (res, rej) => {
       try {
+        console.log(category);
         const db = await init();
         const scoreData = await db
           .collection("scores")
           .find({ cat: { $eq: category } })
           .toArray();
+        console.log(scoreData);
         if (!scoreData.length) {
+          console.log("error thrown");
           throw new Error("Category not found");
         }
         const scores = scoreData.map((d) => new Score(d));
@@ -90,6 +96,9 @@ class Score {
         const db = await init();
         const database = db.collection("scores");
         const fields = await database.distinct("cat");
+        if (!fields.length) {
+          throw new Error("No scores available");
+        }
 
         const leaders = [];
 

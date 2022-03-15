@@ -1,15 +1,16 @@
 describe("successful endpoints", () => {
   let api;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    await resetTestDB();
     api = app.listen(port, () =>
       console.log("Test server running on port 5000...")
     );
   });
 
-  beforeEach(async () => {
-    await resetTestDB();
-  });
+  // beforeEach(async () => {
+  //   await resetTestDB();
+  // });
 
   afterAll(async () => {
     console.log("Stopping test server");
@@ -100,10 +101,18 @@ describe("successful endpoints", () => {
       });
     });
 
+    describe("returnLeadersBoard", () => {
+      test("it retrieves array of highest scores", async () => {
+        const res = await request(api).get("/scores/leadersboard");
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveLength(4);
+      });
+    });
+
     describe("destroy", () => {
       test("it destroys a users data", async () => {
         const res = await request(api)
-          .delete("/scores/username/jalexxx")
+          .delete("/scores/username/nplatton")
           .set("Accept", "application/json");
         expect(res.statusCode).toEqual(204);
       });

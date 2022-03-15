@@ -29,8 +29,8 @@ const resetTestDB = () => {
       client = await MongoClient.connect(connectionUrl);
       const db = client.db(dbName);
       await dropCollections(db);
-      collectionNames.forEach(async (item) => {
-        await db.collection(item).insertMany(seeds[`${item}`]);
+      collectionNames.forEach(async (name) => {
+        await db.collection(name).insertMany(seeds[`${name}`]);
       });
       res("Test DB reset");
     } catch (err) {
