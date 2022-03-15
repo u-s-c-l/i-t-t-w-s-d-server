@@ -37,6 +37,6 @@ db.highscores.insertMany([
   {cat: "maths", username: "ewhite1999", score: 20},
   {cat: "physics", username: "nplatton", score: 23},
   {cat: "movies", username: "saminakhan999", score: 18},
-  {cat: "physics", username: "gi-ba-bu", score: 23},
+  {cat: "animals", username: "gi-ba-bu", score: 23},
   {cat: "movies", username: "jalexxx", score: 18}
  ])

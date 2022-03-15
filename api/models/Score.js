@@ -5,10 +5,7 @@ class Score {
     this.id = data._id;
     this.username = data.username;
     this.cat = data.cat;
-    this.low = data.low;
-    this.medium = data.medium;
-    this.hard = data.hard;
-
+    this.score = data.score;
   }
 
   static get all() {
