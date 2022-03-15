@@ -14,7 +14,6 @@ services:
     container_name: ITTWSD_db
     volumes:
       - "dbdata:/var/lib/mongodb/data"
-      - "./db/seeds.js:/docker-entrypoint-initdb.d/seeds.js:ro"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=ITTWSD
       - MONGO_INITDB_ROOT_PASSWORD=ITTWSDpassword
