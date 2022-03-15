@@ -5,10 +5,10 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
-const collections = ["users", "highscores"];
+const collections = ["users", "scores"];
 const seeds = {
   users: fs.readFileSync(__dirname + "userSeeds.js"),
-  highscores: fs.readFileSync(__dirname + "scoreSeeds.js"),
+  scores: fs.readFileSync(__dirname + "scoreSeeds.js"),
 };
 
 const resetTestDB = () => {

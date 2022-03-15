@@ -5,6 +5,8 @@ const server = express();
 server.use(cors("*"));
 server.use(express.json());
 
+
+
 server.get("/", (req, res) => {
   res.send("Hello World");
 });
@@ -15,9 +17,7 @@ server.use("/auth", authRoutes);
 const usersRoutes = require("./routes/users");
 server.use("/users", usersRoutes);
 
-// server.get("/users/:username", async (req, res) => {
-//   const user = await User.findByUsername(req.params.username);
-//   res.json(user);
-// });
+const scoresRoutes = require("./routes/scores");
+server.use("/scores", scoresRoutes);
 
 module.exports = server;
