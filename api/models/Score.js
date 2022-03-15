@@ -66,7 +66,7 @@ class Score {
         const db = await init();
         const scoreData = await db
           .collection("scores")
-          .find({ username: { $eq: username } })
+          .find({ username: { $eq: username }, cat: { $eq: cat } })
           .toArray();
           console.log(scoreData)
         if (!scoreData.length) {throw new Error('Username with category not found')}
@@ -77,6 +77,43 @@ class Score {
       }
     });
   }
+
+  static get getLeadersBoard() {
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        const fields = await db.collection("scores").distinct('cat')
+        console.log(fields)
+        const leaders = []; 
+        
+        for (const field of fields){
+
+        const sortedScores = await db.collection("scores").aggregate(
+          [ 
+            { $match: { "cat": field } },
+            { $sort : { "score" : -1 } }
+            
+          ]
+        ).toArray();
+
+       let fieldMax = sortedScores[0].score;
+       const TopScores = await db.collection("scores").aggregate(
+        [ 
+          { $match: { "cat": field, "score": fieldMax } }
+          
+        ]
+       ).sort({'_id':-1}).limit(1).toArray();
+
+       leaders.push(TopScores[0])
+      }
+       res(leaders);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
+
+  
 
  static destroy(username) {
     return new Promise(async (res, rej) => {

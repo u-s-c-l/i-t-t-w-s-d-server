@@ -30,21 +30,24 @@ async function findByCategory (req, res){ //returns an object
     }
 
 async function findByUsernameAndCat (req, res){ //returns an object
-    try{    console.log("hello")
-    var data = {
-        "params": {
-            "username": req.params.username,
-            "category": req.params.cat
-        }
-    }; 
-    console.log(data)
+    try{    
             const score = await Score.findByUsernameAndCat(req.params.username, req.params.cat);
-            res.status(200).json(data)
+            res.status(200).json(score)
     } catch(err) {
             res.status(403).send(err.message)
             }
     }
 
+    async function returnLeadersBoard (req, res){ //returns an object
+        try{
+
+            const score = await Score.getLeadersBoard
+            res.status(200).json(score)
+
+        } catch(err) {
+                res.status(403).send(err.message)
+                }
+        }
 // async function upsert(req, res){
 //     try {
 //         const newdata = await Score.upsertScore(req.body.username, req.body.cat, req.body.score)
@@ -63,4 +66,4 @@ async function destroy(req, res){
     }
 }
 
-module.exports = { index, findByUsername, findByCategory, findByUsernameAndCat, destroy }
+module.exports = { index, findByUsername, findByCategory, findByUsernameAndCat, returnLeadersBoard, destroy }
