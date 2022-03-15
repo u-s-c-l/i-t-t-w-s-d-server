@@ -8,9 +8,9 @@ describe("successful endpoints", () => {
     );
   });
 
-  // beforeEach(async () => {
-  //   await resetTestDB();
-  // });
+  beforeEach(async () => {
+    await resetTestDB();
+  });
 
   afterAll(async () => {
     console.log("Stopping test server");

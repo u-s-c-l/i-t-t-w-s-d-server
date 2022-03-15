@@ -5,13 +5,11 @@ const { MongoClient } = require("mongodb");
 let client;
 const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
-const collectionNames = ["users", "scores"];
-const seeds = {
-  users: require("./userSeeds.json"),
-  scores: require("./scoreSeeds.json"),
-};
 
-const dropCollections = async (db) => {
+const userSeeds = require("./userSeeds.json");
+const scoreSeeds = require("./scoreSeeds.json");
+
+const dropCollectionsAndReseed = async (db, reseed = true) => {
   let collections = await db.listCollections().toArray();
   // The above returns array of objects: {name: "", options: {}, ...}
   collections = collections.map((collection) => collection.name);
@@ -21,6 +19,10 @@ const dropCollections = async (db) => {
   if (collections.includes("scores")) {
     await db.collection("scores").drop();
   }
+  if (reseed) {
+    await db.collection("users").insertMany(userSeeds);
+    await db.collection("scores").insertMany(scoreSeeds);
+  }
 };
 
 const resetTestDB = () => {
@@ -28,10 +30,10 @@ const resetTestDB = () => {
     try {
       client = await MongoClient.connect(connectionUrl);
       const db = client.db(dbName);
-      await dropCollections(db);
-      collectionNames.forEach(async (name) => {
-        await db.collection(name).insertMany(seeds[`${name}`]);
-      });
+      await dropCollectionsAndReseed(db);
+      // collectionNames.forEach(async (name) => {
+      //   await db.collection(name).insertMany(seeds[`${name}`]);
+      // });
       res("Test DB reset");
     } catch (err) {
       rej(err);
@@ -44,7 +46,7 @@ const clearDB = () => {
     try {
       const client = await MongoClient.connect(connectionUrl);
       const db = client.db(dbName);
-      await dropCollections(db);
+      await dropCollectionsAndReseed(db, (reseed = false));
       res("Test DB cleared");
     } catch (err) {
       rej(err);

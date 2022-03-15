@@ -39,21 +39,21 @@ describe("user endpoints", () => {
     });
 
     describe("findByUsername", () => {
-      test("it returns 403 in case of failure", async () => {
+      test("it returns 403 if no user found", async () => {
         const res = await request(api).get("/scores/username/jalexxx");
         expect(res.statusCode).toEqual(403);
       });
     });
 
     describe("findByCategory", () => {
-      test("it returns 403 in case of failure", async () => {
+      test("it returns 403 if no category found", async () => {
         const res = await request(api).get("/scores/cat/movies");
         expect(res.statusCode).toEqual(403);
       });
     });
 
     describe("findByUsernameAndCat", () => {
-      test("it returns 403 in case of failure", async () => {
+      test("it returns 403 if no match for given username and category", async () => {
         const res = await request(api).get(
           "/scores/username/jalexxx/cat/movies"
         );
@@ -62,7 +62,7 @@ describe("user endpoints", () => {
     });
 
     describe("returnLeadersBoard", () => {
-      test("it returns 403 in case of failure", async () => {
+      test("it returns 403 if no users found", async () => {
         const res = await request(api).get("/scores/leadersboard");
         expect(res.statusCode).toEqual(403);
       });
