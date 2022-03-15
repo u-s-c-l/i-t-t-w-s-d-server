@@ -82,22 +82,23 @@ class Score {
     return new Promise(async (res, rej) => {
       try {
         const db = await init();
-        const fields = await db.collection("scores").distinct('cat')
-        console.log(fields)
+        const database = db.collection("scores")
+        const fields = await database.distinct('cat')
+        
         const leaders = []; 
         
         for (const field of fields){
 
-        const sortedScores = await db.collection("scores").aggregate(
+        const sortedScores = await database.aggregate(
           [ 
             { $match: { "cat": field } },
             { $sort : { "score" : -1 } }
             
           ]
         ).toArray();
-
        let fieldMax = sortedScores[0].score;
-       const TopScores = await db.collection("scores").aggregate(
+
+       const TopScores = await database.aggregate(
         [ 
           { $match: { "cat": field, "score": fieldMax } }
           
@@ -106,6 +107,7 @@ class Score {
 
        leaders.push(TopScores[0])
       }
+      
        res(leaders);
       } catch (err) {
         rej(err);
