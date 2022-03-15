@@ -12,14 +12,18 @@ async function register(req, res) {
     const result = await User.create({ ...req.body, password_digest: hashed });
     res.status(201).json({ msg: "user created!" });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500);
   }
 }
 
 async function login(req, res) {
   try {
-    if (!req.body.username) { throw new Error("No username inserted");}
-    if (!req.body.password) { throw new Error("No password inserted");}
+    if (!req.body.username) {
+      throw new Error("No username inserted");
+    }
+    if (!req.body.password) {
+      throw new Error("No password inserted");
+    }
     const user = await User.findByUsername(req.body.username);
     const authed = bcrypt.compareSync(req.body.password, user.passwordDigest);
     if (!!authed) {
@@ -38,7 +42,7 @@ async function login(req, res) {
       throw new Error("User could not be authenticated");
     }
   } catch (err) {
-    res.status(401).json(err.message);
+    res.status(401);
   }
 }
 
