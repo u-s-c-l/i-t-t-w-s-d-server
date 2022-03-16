@@ -7,6 +7,9 @@ const User = require("../models/User");
 
 async function register(req, res) {
   try {
+    let newUsername = req.body.username;
+    let response = await User.findIfUsernameExists(newUsername);
+    if(response){throw new Error("Username not available")}
     const salt = await bcrypt.genSalt();
     const hashed = await bcrypt.hash(req.body.password, salt);
     const result = await User.create({ ...req.body, password_digest: hashed });
