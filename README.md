@@ -17,13 +17,16 @@ This repo hosts the server side of an interactive quiz game.
 * Run `npm i` to install dependencies.
 * Navigate back to `/i-t-t-w-s-d-server` folder.
    
-### Usage
+### Local usage (Docker)
 
 `bash _scripts/startDev.sh`
 - starts api & db services
 - runs db migrations
 - seeds db for development
 - serves api on `localhost:3003`
+
+Press `Ctrl` + `C`
+- stop the docker container
 
 `bash _scripts/teardown.sh`
 - stop all running services
@@ -47,16 +50,38 @@ This repo hosts the server side of an interactive quiz game.
 
 * [node.js 🔗](https://nodejs.org/) 
 * [express 🔗](https://expressjs.com/)
-* [Mongodb]()
 * [docker 🔗](https://docker.com/)
 * [Jest 🔗](https://jestjs.io/)
+* [Mongodb]()
+* [Atlas]()
 * [Socket.io]()
 
 ### Deployment
 
-This server is currently deployed at ...heroku.....
+This server is continuosly deployed at https://ultimate-quiz-game.herokuapp.com/
 
 ---
+
+### There are two MongoDB collections
+
+- `users`
+
+#### Users schema
+```json
+{
+    "username": "ewhite1999",
+    "password_digest":"$2a$10$tCppT1FG0aaUBFeYpFfDX..sitL9Hj4sHGyZHh6r5OUTLEvAcIorq"
+}
+```
+
+- `scores`
+#### Scores schema: 
+```json
+{
+    "cat": "maths", "username": "ewhite1999", "score": 20 
+}
+```
+
 # Routes
 
 ## Auth Routes
@@ -66,7 +91,7 @@ This server is currently deployed at ...heroku.....
 | /auth/login             | POST      | authentication  | 
 | /auth/register          | POST      | authentication | 
 
-### Posted object for login request
+### Body for registration request
 
 ```json
 {
@@ -75,7 +100,7 @@ This server is currently deployed at ...heroku.....
 }
 ```
 
-### Posted object for login request
+### Body for login request
 
 ```json
 {
@@ -101,11 +126,11 @@ This server is currently deployed at ...heroku.....
 | /scores/cat/:cat                   | GET       | show  | 
 | /scores/username/:username/cat/:cat| GET       | show  |  
 | /scores/leadersboard               | GET       | show  |  
-| /scores/post                       | POST      | post and update  |  
+| /scores/post                       | POST/PATCH| create and update  |  
 | /scores/username/:username         | DELETE    | destroy |  
 
 
-### Posted object for the score POST request
+### Body for the score POST request
 
 ```json
 {
