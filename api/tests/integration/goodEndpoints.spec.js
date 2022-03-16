@@ -211,20 +211,53 @@ describe("successful endpoints", () => {
     });
 
     describe("authenticated POST /post", () => {
-      test("it returns 201 in case of success and updates score db", async () => {
+      test("it returns 201 in case of success and updates score db - new score is higher", async () => {
         const res = await request(api)
           .post("/scores/post")
           .send({
-            username: "tester",
+            username: "jalexxx",
             cat: "movies",
-            score: 1,
+            score: 20,
           })
           .set("authorization", token);
         expect(res.statusCode).toEqual(201);
         const newRes = await request(api)
-          .get("/username/tester")
+          .get("/scores/username/jalexxx/cat/movies")
           .set("authorization", token);
-        expect(newRes.body).toBeTruthy();
+        console.log(newRes.body);
+        expect(newRes.body.score).toBe(20);
+      });
+
+      test("it returns 201 in case of success and updates score db - new score is lower", async () => {
+        const res = await request(api)
+          .post("/scores/post")
+          .send({
+            username: "jalexxx",
+            cat: "movies",
+            score: 16,
+          })
+          .set("authorization", token);
+        expect(res.statusCode).toEqual(201);
+        const newRes = await request(api)
+          .get("/scores/username/jalexxx/cat/movies")
+          .set("authorization", token);
+        expect(newRes.body.score).toBe(18);
+      });
+
+      test("it returns 201 in case of success and updates score db - no previous score in category", async () => {
+        const res = await request(api)
+          .post("/scores/post")
+          .send({
+            username: "jalexxx",
+            cat: "physics",
+            score: 12,
+          })
+          .set("authorization", token);
+        expect(res.statusCode).toEqual(201);
+        const newRes = await request(api)
+          .get("/scores/username/jalexxx/cat/physics")
+          .set("authorization", token);
+        expect(newRes.body.score).toBe(12);
       });
 
       test("it returns 500 in case of error", async () => {
@@ -261,6 +294,15 @@ describe("successful endpoints", () => {
           .set("authorization", token)
           .set("Accept", "application/json");
         expect(res.statusCode).toEqual(204);
+      });
+
+      test("it throws 500 error if username is too long", async () => {
+        const res = await request(api)
+          .delete("/scores/username/nplattonsndvlsndlvnaeinienpiafnpe")
+          .set("Accept", "application/json")
+          .set("authorization", token)
+          .set("Accept", "application/json");
+        expect(res.statusCode).toEqual(500);
       });
     });
 
@@ -301,6 +343,31 @@ describe("successful endpoints", () => {
           .set("authorization", token);
         expect(newRes.body).toBeTruthy();
       }, 100000);
+
+      // test("it throws 500 error if username is too long", async () => {
+      //   const res = await request(api)
+      //     .post("/auth/register")
+      //     .send(
+      //       JSON.stringify({
+      //         username: "testersoubvlsbvowhvipwhepivhaed",
+      //         password: "tester",
+      //       })
+      //     )
+      //     .set("Content-Type", "application/json");
+      //   expect(res.statusCode).toEqual(500);
+      // }, 200000);
+
+      // test("it throws 500 error if password is not provided", async () => {
+      //   const res = await request(api)
+      //     .post("/auth/register")
+      //     .send(
+      //       JSON.stringify({
+      //         username: "tester",
+      //       })
+      //     )
+      //     .set("Content-Type", "application/json");
+      //   expect(res.statusCode).toEqual(500);
+      // }, 200000);
     });
   });
 });
