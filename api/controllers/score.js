@@ -62,9 +62,9 @@ async function updateInsert(req, res) {
       req.body.cat,
       req.body.score
     );
-    res.json(newdata);
+    res.status(201).json(newdata);
   } catch (err) {
-    res.status(404).json({ err });
+    res.status(500).json({ err });
   }
 }
 
