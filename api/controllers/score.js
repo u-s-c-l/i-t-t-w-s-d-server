@@ -71,7 +71,7 @@ async function updateInsert(req, res) {
 async function destroy(req, res) {
   try {
     const score = await Score.destroy(req.params.username);
-    res.status(204).send("User scores deleted");
+    res.status(204).end();
   } catch (err) {
     res.status(500).send(err.message);
   }

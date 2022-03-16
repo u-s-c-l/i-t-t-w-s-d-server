@@ -10,7 +10,6 @@ async function register(req, res) {
     let newUsername = req.body.username;
     let response = await User.findIfUsernameExists(newUsername);
     if (!!response) {
-      console.log(1);
       throw new Error("Username not available");
     }
     const salt = await bcryptjs.genSalt();
@@ -62,7 +61,6 @@ async function login(req, res) {
       //   };
       //   jwt.sign(payload, process.env.SECRET, { expiresIn: 1000 }, sendToken);
     } else {
-      console.log(4);
       throw new Error("User could not be authenticated");
     }
   } catch (err) {
