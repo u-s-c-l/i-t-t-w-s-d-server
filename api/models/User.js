@@ -70,36 +70,36 @@ class User {
     });
   }
 
-  updatePassword(newPassword) {
-    return new Promise(async (res, rej) => {
-      try {
-        const db = await init();
-        await db
-          .collection("users")
-          .findOneAndUpdate(
-            { username: { $eq: this.username } },
-            { $set: { password_digest: newPassword } }
-          );
-        res("Password updated");
-      } catch (err) {
-        rej(err);
-      }
-    });
-  }
+  // updatePassword(newPassword) {
+  //   return new Promise(async (res, rej) => {
+  //     try {
+  //       const db = await init();
+  //       await db
+  //         .collection("users")
+  //         .findOneAndUpdate(
+  //           { username: { $eq: this.username } },
+  //           { $set: { password_digest: newPassword } }
+  //         );
+  //       res("Password updated");
+  //     } catch (err) {
+  //       rej(err);
+  //     }
+  //   });
+  // }
 
-  destroy() {
-    return new Promise(async (res, rej) => {
-      try {
-        const db = await init();
-        await db
-          .collection("users")
-          .deleteOne({ username: { $eq: this.username } });
-        res("User deleted");
-      } catch (err) {
-        rej(err);
-      }
-    });
-  }
+  // destroy() {
+  //   return new Promise(async (res, rej) => {
+  //     try {
+  //       const db = await init();
+  //       await db
+  //         .collection("users")
+  //         .deleteOne({ username: { $eq: this.username } });
+  //       res("User deleted");
+  //     } catch (err) {
+  //       rej(err);
+  //     }
+  //   });
+  // }
 }
 
 module.exports = User;
