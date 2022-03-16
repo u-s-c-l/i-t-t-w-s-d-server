@@ -120,24 +120,13 @@ class Score {
     });
   }
 
-  static destroy(username) {
-    return new Promise(async (res, rej) => {
-      try {
-        const db = await init();
-        await db
-          .collection("scores")
-          .deleteMany({ username: { $eq: username } });
-        res("Scores deleted");
-      } catch (err) {
-        rej(err);
-      }
-    });
-  }
-
   static updateScore(username, cat, newscore) {
     //Update or Insert
     return new Promise(async (res, rej) => {
       try {
+        if (!username || !cat || !newscore) {
+          throw new Error("Insufficient arguments");
+        }
         const db = await init();
         let documnt = await db
           .collection("scores")
@@ -156,9 +145,23 @@ class Score {
             .insertOne({ username: username, cat: cat, score: newscore });
         }
 
-        res("updated or inserted successfully");
+        res("Updated or inserted successfully");
       } catch (err) {
         rej("Error updating score");
+      }
+    });
+  }
+
+  static destroy(username) {
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        await db
+          .collection("scores")
+          .deleteMany({ username: { $eq: username } });
+        res("Scores deleted");
+      } catch (err) {
+        rej(err);
       }
     });
   }
