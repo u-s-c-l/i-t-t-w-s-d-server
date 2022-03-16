@@ -43,6 +43,21 @@ class User {
     });
   }
 
+  static findIfUsernameExists(username) {
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        const userData = await db
+          .collection("users")
+          .find({ username: { $eq: username } })
+          .toArray();
+        res(!!userData.length);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  }
+
   static create(data) {
     return new Promise(async (res, rej) => {
       try {

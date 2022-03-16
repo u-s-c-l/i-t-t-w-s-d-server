@@ -55,14 +55,18 @@ async function returnLeadersBoard(req, res) {
   }
 }
 
-// async function upsert(req, res){
-//     try {
-//         const newdata = await Score.upsertScore(req.body.username, req.body.cat, req.body.score)
-//         res.json(newdata)
-//     } catch(err) {
-//         res.status(404).json({err})
-//     }
-// }
+async function updateInsert(req, res) {
+  try {
+    const newdata = await Score.updateScore(
+      req.body.username,
+      req.body.cat,
+      req.body.score
+    );
+    res.json(newdata);
+  } catch (err) {
+    res.status(404).json({ err });
+  }
+}
 
 async function destroy(req, res) {
   try {
@@ -79,5 +83,6 @@ module.exports = {
   findByCategory,
   findByUsernameAndCat,
   returnLeadersBoard,
+  updateInsert,
   destroy,
 };

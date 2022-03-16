@@ -14,7 +14,7 @@ router.get(
   userController.findByUsernameAndCat
 );
 router.get("/leadersboard", verifyToken, userController.returnLeadersBoard);
-//router.post('/cat', userController.upsert)
+router.post("/post", verifyToken, userController.updateInsert);
 router.delete("/username/:username", verifyToken, userController.destroy);
 
 module.exports = router;

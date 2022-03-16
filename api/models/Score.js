@@ -134,47 +134,34 @@ class Score {
     });
   }
 
-  // request object
-  // {username: username}
-  // static upsertScore(username, cat, newscore){
-  //   let message;
-  //   return new Promise (async (res, rej) => {
-  //       try {
-  //         const query = {"username": username, "cat": cat};
-  //         const db = await init();
-  //         const scoreData = await db
-  //         .collection("scores")
-  //         .find({ username: { $eq: username }, cat: { $eq: cat },  })
-  //         .toArray();
-  //       if (!scoreData.length) {
-  //         const update = { $set: { "score": newscore }};
-  //         const options = { upsert: true };
-  //         let insertedScore = await db
-  //         .collection("scores")
-  //         .updateOne(query, update, options);
-  //         console.log(insertedScore)
-  //       }
-  //       if (!!scoreData.length ) {
+  static updateScore(username, cat, newscore) {
+    //Update or Insert
+    return new Promise(async (res, rej) => {
+      try {
+        const db = await init();
+        let documnt = await db
+          .collection("scores")
+          .find({ username: { $eq: username }, cat: { $eq: cat } })
+          .toArray();
 
-  //         if(scoreData[0].score < newscore){}
+        if (documnt.length && documnt[0].score <= newscore) {
+          await db
+            .collection("scores") //delete
+            .deleteOne({ username: { $eq: username }, cat: { $eq: cat } });
+        }
 
-  //         console.log(scoreData)
-  //         // const update = { $set: { "score": newscore }};
-  //         // const options = { upsert: true };
-  //         // let insertedScore = await db
-  //         // .collection("scores")
-  //         // .updateOne(query, update, options);
-  //         // console.log(insertedScore)
-  //       }
-  //         //  let newScore = new Score(insertedScore.ops[0]);
-  //         //   resolve (newScore);
+        if (!documnt.length || documnt[0].score <= newscore) {
+          await db
+            .collection("scores") // insert
+            .insertOne({ username: username, cat: cat, score: newscore });
+        }
 
-  //         res("updated");
-  //       } catch (err) {
-  //           rej('Error upserting score');
-  //       }
-  //   });
-  // }
+        res("updated or inserted successfully");
+      } catch (err) {
+        rej("Error updating score");
+      }
+    });
+  }
 }
 
 module.exports = Score;
