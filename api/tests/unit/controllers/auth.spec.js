@@ -117,10 +117,22 @@ describe("auth controller", () => {
         username: "tester",
         password: "testword",
       };
+      jest.spyOn(User, "findIfUsernameExists").mockResolvedValueOnce(false);
       jest.spyOn(User, "create").mockResolvedValue("User created!");
       const mockReq = { body: testUser };
       await authController.register(mockReq, mockRes);
       expect(mockStatus).toHaveBeenCalledWith(201);
+    });
+
+    test("it responds with code 500 if user already exists", async () => {
+      const testUser = {
+        username: "tester",
+        password: "testword",
+      };
+      jest.spyOn(User, "findIfUsernameExists").mockResolvedValueOnce(true);
+      const mockReq = { body: testUser };
+      await authController.register(mockReq, mockRes);
+      expect(mockStatus).toHaveBeenCalledWith(500);
     });
 
     test("it responds with code 500 in case of error", async () => {
