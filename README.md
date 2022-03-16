@@ -82,6 +82,8 @@ This server is continuosly deployed at https://ultimate-quiz-game.herokuapp.com/
 }
 ```
 
+Note: to seed the two MongoDB collection hosted on Atlas, run `node insert-user-data.js` and `node insert-scores-data.js` from terminal. 
+
 # Routes
 
 ## Auth Routes
@@ -139,8 +141,4 @@ This server is continuosly deployed at https://ultimate-quiz-game.herokuapp.com/
 "score": 28
 }
 ```
-
-## MongoDB Atlas seeding
-
-To seed a MongoDB collection hosted on Atlas with the two documents, run `node insert-user-data.js` and `node insert-scores-data.js` from terminal. 
 
