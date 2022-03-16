@@ -66,19 +66,19 @@ This server is continuosly deployed at https://ultimate-quiz-game.herokuapp.com/
 
 - `users`
 
-#### Users schema
+#### Users schema example
 ```json
 {
-    "username": "ewhite1999",
-    "password_digest":"$2a$10$tCppT1FG0aaUBFeYpFfDX..sitL9Hj4sHGyZHh6r5OUTLEvAcIorq"
+    "username": "Frank",
+    "password_digest":"$2a$10$tCppT1FG0aL9Hj4sHGyZHh6r5OUTLEvAcIorq"
 }
 ```
 
 - `scores`
-#### Scores schema: 
+#### Scores schema example: 
 ```json
 {
-    "cat": "maths", "username": "ewhite1999", "score": 20 
+    "cat": "maths", "username": "Frank", "score": 20 
 }
 ```
 
@@ -140,5 +140,7 @@ This server is continuosly deployed at https://ultimate-quiz-game.herokuapp.com/
 }
 ```
 
+## MongoDB Atlas seeding
 
+To seed a MongoDB collection hosted on Atlas with the two documents, run `node insert-user-data.js` and `node insert-scores-data.js` from terminal. 
 
