@@ -1,11 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const userController = require('../controllers/score')
+const { verifyToken } = require("../middleware/auth");
 
-router.get('/', userController.index)
-router.get('/:username', userController.findByUsername)
-//router.get('/:cat', userController.findByCategory)
-router.delete('/:username', userController.destroy)
+const userController = require("../controllers/score");
+
+router.get("/", verifyToken, userController.index);
+router.get("/username/:username", verifyToken, userController.findByUsername);
+router.get("/cat/:cat", verifyToken, userController.findByCategory);
+router.get(
+  "/username/:username/cat/:cat",
+  verifyToken,
+  userController.findByUsernameAndCat
+);
+router.get("/leadersboard", verifyToken, userController.returnLeadersBoard);
+router.post("/post", verifyToken, userController.updateInsert);
+router.delete("/username/:username", verifyToken, userController.destroy);
 
 module.exports = router;

@@ -1,30 +1,65 @@
 require("dotenv").config();
 
-const { request } = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient } = require("mongodb");
 
+let client;
 const connectionUrl = process.env.DB_CONNECTION;
 const dbName = process.env.DB_NAME;
-const collections = ["users", "scores"];
-const seeds = {
-  users: fs.readFileSync(__dirname + "userSeeds.js"),
-  scores: fs.readFileSync(__dirname + "scoreSeeds.js"),
+
+const userSeeds = require("./userSeeds.json");
+const scoreSeeds = require("./scoreSeeds.json");
+
+const dropCollectionsAndReseed = async (db, reseed = true) => {
+  let collections = await db.listCollections().toArray();
+  // The above returns array of objects: {name: "", options: {}, ...}
+  collections = collections.map((collection) => collection.name);
+  if (collections.includes("users")) {
+    await db.collection("users").drop();
+  }
+  if (collections.includes("scores")) {
+    await db.collection("scores").drop();
+  }
+  if (reseed) {
+    await db.collection("users").insertMany(userSeeds);
+    await db.collection("scores").insertMany(scoreSeeds);
+  }
 };
 
-const resetTestDB = () => {
+const resetTestDB = (api = null) => {
   return new Promise(async (res, rej) => {
     try {
-      let client = await MongoClient.connect(connectionUrl);
-      collections.forEach((item) => {
-        client.db(dbName).collection(item).drop();
-        client.db(dbName).collection(item).insertMany(seeds[`${item}`]);
-      });
-      res("Test DB reset");
+      client = await MongoClient.connect(connectionUrl);
+      const db = client.db(dbName);
+      await dropCollectionsAndReseed(db);
+      res("DB reset");
     } catch (err) {
-      rej("Could not reset DB");
+      rej(err);
     }
   });
 };
+
+const clearDB = () => {
+  return new Promise(async (res, rej) => {
+    try {
+      const client = await MongoClient.connect(connectionUrl);
+      const db = client.db(dbName);
+      await dropCollectionsAndReseed(db, (reseed = false));
+      res("Test DB cleared");
+    } catch (err) {
+      rej(err);
+    }
+  });
+};
+
+// const closeDB = () => {
+//   return new Promise(async (res, rej) => {
+//     try {
+//       await client.close();
+//     } catch (err) {
+//       rej(err);
+//     }
+//   });
+// };
 
 const request = require("supertest");
 const server = require("../../server");
@@ -32,3 +67,6 @@ const server = require("../../server");
 global.request = request;
 global.app = server;
 global.resetTestDB = resetTestDB;
+global.clearDB = clearDB;
+// global.closeDB = closeDB;
+global.port = process.env.PORT || 5000;
