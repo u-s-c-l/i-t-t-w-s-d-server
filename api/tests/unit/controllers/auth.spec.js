@@ -67,25 +67,27 @@ describe("auth controller", () => {
       expect(mockStatus).toHaveBeenCalledWith(401);
     });
 
-    test("it responds with code 401 in case of unsuccessful token generation", async () => {
-      const testPswrd = "testword";
-      const testUser = {
-        username: "tester",
-        password: "testword",
-      };
-      jest
-        .spyOn(User, "findByUsername")
-        .mockResolvedValue(
-          new User({ ...testUser, password_digest: testPswrd })
-        );
-      jest.spyOn(bcryptjs, "compare").mockResolvedValueOnce(true);
-      jest.spyOn(jwt, "sign").mockResolvedValue(null);
-      const mockReq = { body: testUser };
-      await authController.login(mockReq, mockRes);
-      expect(mockStatus).toHaveBeenCalledWith(401);
-    });
+    // test("it responds with code 401 in case of unsuccessful token generation", async () => {
+    //   const testPswrd = "testword";
+    //   const testUser = {
+    //     username: "tester",
+    //     password: "testword",
+    //   };
+    //   jest
+    //     .spyOn(User, "findByUsername")
+    //     .mockResolvedValue(
+    //       new User({ ...testUser, password_digest: testPswrd })
+    //     );
+    //   jest.spyOn(bcryptjs, "compare").mockResolvedValueOnce(true);
+    //   jest.spyOn(jwt, "sign").mockImplementation(() => {
+    //     throw new Error();
+    //   });
+    //   const mockReq = { body: testUser };
+    //   await authController.login(mockReq, mockRes);
+    //   expect(mockStatus).toHaveBeenCalledWith(401);
+    // });
 
-    test("it responds with code 401 in case of invalid token", async () => {
+    test("it responds with code 401 in case of invalid password", async () => {
       const testUser = {
         username: "tester",
         password: "testword",

@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 
 const { MongoClient } = require("mongodb");
 
@@ -25,16 +25,13 @@ const dropCollectionsAndReseed = async (db, reseed = true) => {
   }
 };
 
-const resetTestDB = () => {
+const resetTestDB = (api = null) => {
   return new Promise(async (res, rej) => {
     try {
       client = await MongoClient.connect(connectionUrl);
       const db = client.db(dbName);
       await dropCollectionsAndReseed(db);
-      // collectionNames.forEach(async (name) => {
-      //   await db.collection(name).insertMany(seeds[`${name}`]);
-      // });
-      res("Test DB reset");
+      res("DB reset");
     } catch (err) {
       rej(err);
     }
