@@ -8,29 +8,27 @@ async function index(req, res) {
     const scores = await Score.all;
     res.status(200).json(scores);
   } catch (err) {
-    res.status(403).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 
 async function findByUsername(req, res) {
   //returns an object
   try {
-    console.log(req.params.username);
     const score = await Score.findByUsername(req.params.username);
     res.status(200).json(score);
   } catch (err) {
-    res.status(403).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 
 async function findByCategory(req, res) {
   //returns an object
   try {
-    console.log(req.params.cat);
     const score = await Score.findByCategory(req.params.cat);
     res.status(200).json(score);
   } catch (err) {
-    res.status(403).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 
@@ -43,7 +41,7 @@ async function findByUsernameAndCat(req, res) {
     );
     res.status(200).json(score);
   } catch (err) {
-    res.status(403).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 
@@ -53,7 +51,7 @@ async function returnLeadersBoard(req, res) {
     const score = await Score.getLeadersBoard;
     res.status(200).json(score);
   } catch (err) {
-    res.status(403).send(err.message);
+    res.status(404).send(err.message);
   }
 }
 

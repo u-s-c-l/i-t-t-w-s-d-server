@@ -8,7 +8,7 @@ async function index(req, res) {
     const users = await User.all;
     res.status(200).json(users);
   } catch (err) {
-    res.status(403).json(err.message);
+    res.status(404).json(err.message);
   }
 }
 
@@ -18,7 +18,7 @@ async function findByUsername(req, res) {
     const user = await User.findByUsername(req.params.username);
     res.status(200).json(user);
   } catch (err) {
-    res.status(403).json(err.message);
+    res.status(404).json(err.message);
   }
 }
 
