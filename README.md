@@ -17,7 +17,7 @@ This repo hosts the server side of an interactive quiz game.
 * Run `npm i` to install dependencies.
 * Navigate back to `/i-t-t-w-s-d-server` folder.
    
-### Usage
+### Local usage
 
 `bash _scripts/startDev.sh`
 - starts api & db services
@@ -54,7 +54,7 @@ This repo hosts the server side of an interactive quiz game.
 
 ### Deployment
 
-This server is currently deployed at ...heroku.....
+This server is currently deployed at https://ultimate-quiz-game.herokuapp.com/
 
 ---
 # Routes
