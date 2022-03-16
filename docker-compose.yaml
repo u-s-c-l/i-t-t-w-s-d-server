@@ -1,0 +1,16 @@
+version: "3"
+services:
+  api:
+    image: node:12.18.4
+    working_dir: /code
+    volumes:
+      - type: bind
+        source: ./api
+        target: /code
+
+  db:
+    image: mongo:5.0
+    volumes:
+      - "./db/seeds.js:/docker-entrypoint-initdb.d/seeds.js:ro"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=ITTWSD
