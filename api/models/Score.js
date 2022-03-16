@@ -155,6 +155,9 @@ class Score {
   static destroy(username) {
     return new Promise(async (res, rej) => {
       try {
+        if (username.length > 20) {
+          throw new Error("Username is too long");
+        }
         const db = await init();
         await db
           .collection("scores")

@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const { init } = require("../dbConfig/config");
 
 class User {
