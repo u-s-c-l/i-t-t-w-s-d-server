@@ -61,8 +61,7 @@ async function login(req, res) {
       //   };
       //   jwt.sign(payload, process.env.SECRET, { expiresIn: 1000 }, sendToken);
     } else {
-      console.log("hi");
-      throw new Error("User could not be authenticated");
+      throw new Error("Incorrect password");
     }
   } catch (err) {
     res.status(401).send(err.message);
