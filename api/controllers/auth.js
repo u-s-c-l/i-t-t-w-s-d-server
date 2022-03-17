@@ -17,7 +17,7 @@ async function register(req, res) {
     const result = await User.create({ ...req.body, password_digest: hashed });
     res.status(201).json({ msg: "user created!" });
   } catch (err) {
-    res.status(500);
+    res.status(500).send(err.message);
   }
 }
 
@@ -65,7 +65,7 @@ async function login(req, res) {
       throw new Error("User could not be authenticated");
     }
   } catch (err) {
-    res.status(401);
+    res.status(401).send(err.message);
   }
 }
 
