@@ -147,7 +147,7 @@ class Score {
 
         res("Updated or inserted successfully");
       } catch (err) {
-        rej("Error updating score");
+        rej(err);
       }
     });
   }
