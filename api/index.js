@@ -1,5 +1,5 @@
 const app = require("./server");
-
+const cors = require("cors");
 const port = process.env.PORT || 3003;
 
 app.listen(port, () =>
