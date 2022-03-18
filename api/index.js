@@ -13,15 +13,22 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 //server.use(cors("*"));
 //const io = socketio(server)
+// const io = socketio(server, {
+//   cors: {
+//     origin: '*',
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ['Content-Type', 'Authorization','my-custom-header'],
+//     credentials: false,
+//   },
+// });
+
 const io = socketio(server, {
   cors: {
-    origin: '*',
-    //methods: ["GET", "POST"],
-    //allowedHeaders: ['Content-Type', 'Authorization','my-custom-header'],
-    credentials: false,
-  },
+    origin: ["http://localhost:3000", "https://staging--ultimate-quiz-game.netlify.app/"]
+  }
 });
 
+global.io = io;
 
 
 io.on('connection', socket => {
