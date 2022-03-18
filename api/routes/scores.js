@@ -13,8 +13,8 @@ router.get(
   verifyToken,
   userController.findByUsernameAndCat
 );
-router.get("/leadersboard", verifyToken, userController.returnLeadersBoard);
-router.post("/post", verifyToken, userController.updateInsert);
+router.get("/leadersboard", userController.returnLeadersBoard);
+router.post("/post", userController.updateInsert);
 router.delete("/username/:username", verifyToken, userController.destroy);
 
 module.exports = router;
