@@ -13,16 +13,20 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: "http://localhost:3004",
+    origin: ["http://localhost:3000"], //same as client NOTE TO SELF ADD NETLIFY LINK AFTER DEPLOY
     methods: ["GET", "POST"],
     allowedHeaders: [],
     credentials: true,
   },
 });
 
-io.on("connection", (socket) => {
-  socket.on("create-room", (username, room, difficulty, category) => {
-    socket.to(room).emit("start-game", username, difficulty, category);
+
+
+io.on('connection', socket => {
+  console.log("it connected")
+  socket.on('create-room', (username, room, difficulty, category) => {
+    socket.to(room).emit('start-game',username, difficulty, category)
+
   });
 
   socket.on("join-room", (username, room) => {
