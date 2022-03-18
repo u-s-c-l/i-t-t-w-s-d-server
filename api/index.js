@@ -20,9 +20,13 @@ const io = socketio(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  socket.on("create-room", (username, room, difficulty, category) => {
-    socket.to(room).emit("start-game", username, difficulty, category);
+
+
+io.on('connection', socket => {
+  console.log("it connected")
+  socket.on('create-room', (username, room, difficulty, category) => {
+    socket.to(room).emit('start-game',username, difficulty, category)
+
   });
 
   socket.on("join-room", (username, room) => {
