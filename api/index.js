@@ -11,14 +11,16 @@ app.listen(port, () =>
 const http = require("http");
 const socketio = require("socket.io");
 const server = http.createServer(app);
-const io = socketio(server, {
-  cors: {
-    origin: /netlify/,
-    methods: ["GET", "POST"],
-    allowedHeaders: [],
-    credentials: true,
-  },
-});
+server.use(cors("*"));
+const io = socketio(server)
+// const io = socketio(server, {
+//   cors: {
+//     origin: /netlify/,
+//     methods: ["GET", "POST"],
+//     allowedHeaders: [],
+//     credentials: true,
+//   },
+// });
 
 
 
