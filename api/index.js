@@ -13,7 +13,7 @@ const socketio = require("socket.io");
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: ["http://localhost:3000"], //same as client NOTE TO SELF ADD NETLIFY LINK AFTER DEPLOY
+    origin: /netlify/,
     methods: ["GET", "POST"],
     allowedHeaders: [],
     credentials: true,
