@@ -31,18 +31,25 @@ const io = socketio(server, {
 global.io = io;
 
 
-io.on('connection', socket => {
-  console.log("it connected")
-  socket.on('create-room', (username, room, difficulty, category) => {
-    socket.to(room).emit('start-game',username, difficulty, category)
-
+io.on('connection', (socket) => {
+  console.log("user connected")
+  socket.on('create-room', (room, difficulty, currentQ, questions) => {
+    socket.to(room).emit('start-game', difficulty, currentQ, questions);
   });
 
-  socket.on("join-room", (username, room) => {
+  socket.on("join-room", (room, username) => {
+    socket.join(room)
     socket.to(room).emit("join-game", username);
   });
 
-  socket.on("game-over", (username, room, score) => {
+  socket.on("new-message", (data) => {
+    socket.broadcast.emit("broadcast-message", {
+      username: users[data.username],
+      message: data.message,
+    });
+  });
+
+  socket.on("game-over", (room, username, score) => {
     socket.to(room).emit("end-game", username, score);
   });
 });
